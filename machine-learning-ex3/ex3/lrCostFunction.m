@@ -36,14 +36,16 @@ grad = zeros(size(theta));
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
 
+% Compute the cost
+predict = sigmoid(X * theta);
+J1 = -y' * log(predict);
+J2 = -(1 - y)' * log(1 - predict);
+RegParam = lambda / (2*m) * theta(2:end, :)' * theta(2:end, :);
+J = 1/m * (J1 + J2) + RegParam;
 
-
-
-
-
-
-
-
+% Compute the grad
+thetaReg = [grad(1, :); theta(2:end, :) * lambda / m];
+grad = 1/m * X' * (predict - y) + thetaReg;
 
 % =============================================================
 
