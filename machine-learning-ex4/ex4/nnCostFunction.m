@@ -62,7 +62,34 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% compute the cost
+% add X0 column to X
+X = [ones(m,1) X];
 
+% compute the output layer, h(theta)
+a2 = sigmoid(X * Theta1');
+a2 = [ones(size(a2, 1), 1) a2];
+predict = sigmoid(a2 * Theta2');
+
+Y = zeros(m, num_labels);
+for i = 1:m
+	Y(i, y(i)) = 1;
+end
+
+for i = 1:m
+	J1 = -Y(i, :) * log(predict(i, :)');
+	J2 = -(1 - Y(i, :)) * log(1 - predict(i, :)');
+	J = J + 1/m * (J1 + J2);
+end
+
+% J1 = -Y * log(predict');
+% J2 = -(1 - Y) * log(1 - predict');
+% J = 1/m * sum((J1 + J2)(:));
+
+% RegParam = lambda / (2*m) * Theta1(2:end, :)' * Theta1(2:end, :);
+
+
+% compute grad
 
 
 
