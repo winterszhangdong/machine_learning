@@ -69,7 +69,7 @@ X = [ones(m,1) X];
 % compute the output layer, h(theta)
 a2 = sigmoid(X * Theta1');
 a2 = [ones(size(a2, 1), 1) a2];
-predict = sigmoid(a2 * Theta2');
+predict = a3 = sigmoid(a2 * Theta2');
 
 Y = zeros(m, num_labels);
 for i = 1:m
@@ -82,31 +82,28 @@ for i = 1:m
 	J = J + 1/m * (J1 + J2);
 end
 
-% J1 = -Y * log(predict');
-% J2 = -(1 - Y) * log(1 - predict');
-% J = 1/m * sum((J1 + J2)(:));
+% Regularized cost function
+Theta1_Reg = sum((Theta1(:, 2:end) .^ 2)(:));
+Theta2_Reg = sum((Theta2(:, 2:end) .^ 2)(:));
+Reg_Param = lambda / (2*m) * (Theta1_Reg + Theta2_Reg);
 
-% RegParam = lambda / (2*m) * Theta1(2:end, :)' * Theta1(2:end, :);
-
+J = J + Reg_Param;
 
 % compute grad
+for i = 1:m
+	d3 = a3(i, :)' - Y(i, :)';
+	% sigmoidGradient can also be used here
+	d2 = (Theta2' * d3) .* a2(i, :)' .* (1 - a2(i, :)');
+	d2 = d2(2:end);
+	Theta1_grad = Theta1_grad + d2 * X(i, :);
+	Theta2_grad = Theta2_grad + d3 * a2(i, :);
+end
 
+Theta1_grad = Theta1_grad / m;
+Theta2_grad = Theta2_grad / m;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) + lambda/m * Theta1(:, 2:end);
+Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) + lambda/m * Theta2(:, 2:end);
 % -------------------------------------------------------------
 
 % =========================================================================
