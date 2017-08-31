@@ -186,7 +186,7 @@ fprintf('\nTraining Neural Network... \n')
 options = optimset('MaxIter', 400);
 
 %  You should also try different values of lambda
-lambda = 0.1;
+lambda = 5;
 
 % Create "short hand" for the cost function to be minimized
 costFunction = @(p) nnCostFunction(p, ...
