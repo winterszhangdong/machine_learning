@@ -21,10 +21,10 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
-
-
-
-
+for i = 1:length(X)
+    distance = sum(((centroids - X(i)) .^ 2), 2);
+    [tmp, idx(i)] = min(distance);
+end
 
 
 % =============================================================
