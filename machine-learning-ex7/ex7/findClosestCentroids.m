@@ -22,7 +22,8 @@ idx = zeros(size(X,1), 1);
 %
 
 for i = 1:length(X)
-    distance = sum(((centroids - X(i)) .^ 2), 2);
+    % distance = sum(((centroids - repmat(X(i, :), K, 1)) .^ 2), 2);
+    distance = sum((bsxfun(@minus, centroids, X(i, :)) .^ 2), 2);
     [tmp, idx(i)] = min(distance);
 end
 
