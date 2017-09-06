@@ -133,7 +133,7 @@ fprintf(['\nRunning PCA on face dataset.\n' ...
 [U, S] = pca(X_norm);
 
 %  Visualize the top 36 eigenvectors found
-displayData(U(:, 1:36)');
+displayData(U(:, 1:100)');
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
