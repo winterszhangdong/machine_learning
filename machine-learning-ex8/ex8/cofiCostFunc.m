@@ -40,21 +40,32 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+predictions = X * Theta';
+error = (predictions - Y) .* R;
+J = sum((error .^ 2)(:)) / 2;
 
+% for i = 1:num_movies
+% 	% who saw the movie i
+% 	idx = find(R(i, :) == 1);
+% 	X_grad(i, :) = (X(i, :) * Theta(idx, :)' - Y(i, idx)) * Theta(idx, :);
+% end
 
+% for j = 1:num_users
+% 	% which movies that user j saw 
+% 	idx = find(R(:, j) == 1);
+% 	Theta_grad(j, :) = (Theta(j, :) * X(idx, :)' - Y(idx, j)') * X(idx, :);
+% end
 
+X_grad = error * Theta;
+Theta_grad = error' * X;
 
+% Regularized cost function
+regularization = (sum((Theta .^ 2)(:)) + sum((X .^ 2)(:))) * lambda / 2;
+J = J + regularization;
 
-
-
-
-
-
-
-
-
-
-
+% Regularized gradient
+X_grad = X_grad + lambda * X;
+Theta_grad = Theta_grad + lambda * Theta;
 % =============================================================
 
 grad = [X_grad(:); Theta_grad(:)];
